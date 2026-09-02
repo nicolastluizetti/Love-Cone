@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doces - LoveCone</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <img class="logo"src="assets/logo4.png" alt="lovecone">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">Sobre</a></li>
+            <li><a href="candy.html">Doces</a></li>
+            <li><a href="order.html">Pedidos</a></li>
+            <li><a href="contact.html">Contato</a></li>
+            <img class="logo"src="assets/logo4.png" alt="lovecone">
+        </ul>
+    </nav>
+
+    <main>
+        <section class="candy-hero">
+            <h1>Nossos Doces</h1>
+            <p style="color: antiquewhite;">Conheça nossa deliciosa seleção de doces artesanais e descubra os sabores que encantam cada cliente.</p>
+        </section>
+
+        <section class="slider-section" aria-label="Carrossel de produtos">
+            <div class="slider-controls">
+                <button class="slider-btn prev" type="button" aria-label="Slide anterior">&#10094;</button>
+
+                <div class="slider-view">
+                    <article class="slide active">
+                        <a class="slide-image" href="assets/oreosurprise.jpeg" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/oreosurprise.jpeg" alt="Oreo Surprise">
+                        </a>
+                        <div class="slide-content">
+                            <h3>Oreo Surprise</h3>
+                            <p>Uma explosão de textura crocante com creme suave e um toque irresistível de Oreo.</p>
+                            
+                        </div>
+                    </article>
+
+                    <article class="slide">
+                        <a class="slide-image" href="assets/brownie.jpeg" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/brownie.jpeg" alt="Brownie">
+                        </a>
+                        <div class="slide-content">
+                            <h3>Brownie</h3>
+                            <p>Brownie delicioso com camadas de chocolate e recheio cremoso.</p>
+                           
+                        </div>
+                    </article>
+
+                    <article class="slide">
+                        <a class="slide-image" href="assets/capsula-de-cafe.png" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/capsula-de-cafe.png" alt="Cápsula Artesanal de Café">
+                        </a>
+                        <div class="slide-content">
+                            <h3>Cápsula Artesanal de Café</h3>
+                            <p>Uma experiência gourmet para quem ama café com personalidade, aroma e sabor marcantes.</p>
+                        </div>
+                    </article>
+                </div>
+
+                <button class="slider-btn next" type="button" aria-label="Próximo slide">&#10095;</button>
+            </div>
+
+            <div class="slider-dots" role="tablist" aria-label="Selecionar slide">
+                <button class="dot active" type="button" data-slide="0" aria-label="Ir para o slide 1"></button>
+                <button class="dot" type="button" data-slide="1" aria-label="Ir para o slide 2"></button>
+                <button class="dot" type="button" data-slide="2" aria-label="Ir para o slide 3"></button>
+                <button class="dot" type="button" data-slide="3" aria-label="Ir para o slide 4"></button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 LoveCone. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="scrip.js"></script>
+
+    <script>
+        const slides = Array.from(document.querySelectorAll('.slide'));
+        const dots = Array.from(document.querySelectorAll('.dot'));
+        const prevButton = document.querySelector('.slider-btn.prev');
+        const nextButton = document.querySelector('.slider-btn.next');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            currentSlide = (index + slides.length) % slides.length;
+
+            slides.forEach((slide, slideIndex) => {
+                slide.classList.toggle('active', slideIndex === currentSlide);
+            });
+
+            dots.forEach((dot, dotIndex) => {
+                dot.classList.toggle('active', dotIndex === currentSlide);
+            });
+        }
+
+        prevButton?.addEventListener('click', () => showSlide(currentSlide - 1));
+        nextButton?.addEventListener('click', () => showSlide(currentSlide + 1));
+
+        dots.forEach((dot) => {
+            dot.addEventListener('click', () => {
+                showSlide(Number(dot.dataset.slide));
+            });
+        });
+
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+    </script>
+</body>
+</html>
