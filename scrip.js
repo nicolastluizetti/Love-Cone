@@ -81,9 +81,9 @@ function slugify(value) {
         .replace(/(^-|-$)/g, '');
 }
 
-function getFlavorDetails(productName) {
+function getFlavorDetails(productName, flavorIndex = 0) {
     const product = orderProducts.find(item => item.name === productName);
-    const flavorSelect = document.querySelector(`.flavor-select[data-product="${productName}"]`);
+    const flavorSelect = document.querySelector(`.flavor-select[data-product="${productName}"][data-flavor-index="${flavorIndex}"]`);
     const selectedOption = flavorSelect?.selectedOptions[0];
 
     return {
@@ -93,15 +93,23 @@ function getFlavorDetails(productName) {
     };
 }
 
+function getSelectedFlavorDetails(productName) {
+    return Array.from(document.querySelectorAll(`.flavor-entry[data-product="${productName}"]`))
+        .map(entry => {
+            const flavorIndex = Number(entry.dataset.flavorIndex);
+            const quantity = parseInt(entry.querySelector('.quantity-input')?.value, 10) || 0;
+            return { ...getFlavorDetails(productName, flavorIndex), quantity };
+        })
+        .filter(flavor => flavor.quantity > 0);
+}
+
 function getProductTotalValue() {
     return Array.from(productCheckboxes)
         .filter(cb => cb.checked)
         .reduce((sum, cb) => {
             const productName = cb.value;
-            const qtyInput = document.querySelector(`.quantity-input[data-product="${productName}"]`);
-            const qty = parseInt(qtyInput?.value, 10) || 1;
-            const price = getFlavorDetails(productName).price;
-            return sum + (price * qty);
+            return sum + getSelectedFlavorDetails(productName)
+                .reduce((productSum, flavor) => productSum + (flavor.price * flavor.quantity), 0);
         }, 0);
 }
 
@@ -112,13 +120,11 @@ function updateOrderTotals() {
 }
 
 function calculatePrice(productName) {
-    const flavorSelect = document.querySelector(`.flavor-select[data-product="${productName}"]`);
-    const qtyInput = document.querySelector(`.quantity-input[data-product="${productName}"]`);
     const priceDisplay = document.querySelector(`.price-display[data-product="${productName}"]`);
-    if (!flavorSelect || !qtyInput || !priceDisplay) return 0;
+    if (!priceDisplay) return 0;
 
-    const qty = parseInt(qtyInput.value, 10) || 1;
-    const total = getFlavorDetails(productName).price * qty;
+    const total = getSelectedFlavorDetails(productName)
+        .reduce((sum, flavor) => sum + (flavor.price * flavor.quantity), 0);
     priceDisplay.innerHTML = `Preço: <strong>R$ ${formatCurrency(total)}</strong>`;
     return total;
 }
@@ -134,6 +140,18 @@ function renderProductOptions() {
             </option>
         `).join('');
 
+        const flavorFields = [0, 1].map(flavorIndex => `
+            <div class="flavor-entry" data-product="${product.name}" data-flavor-index="${flavorIndex}">
+                <label for="flavor-${slug}-${flavorIndex}">${flavorIndex === 0 ? 'Escolha o Sabor:' : 'Segundo Sabor:'}</label>
+                <select id="flavor-${slug}-${flavorIndex}" name="flavor-${slug}-${flavorIndex}" class="flavor-select" data-product="${product.name}" data-flavor-index="${flavorIndex}">
+                    ${flavorOptions}
+                </select>
+
+                <label for="quantity-${slug}-${flavorIndex}">Quantidade:</label>
+                <input type="number" id="quantity-${slug}-${flavorIndex}" name="quantity-${slug}-${flavorIndex}" min="${flavorIndex === 0 ? '1' : '0'}" value="${flavorIndex === 0 ? '1' : '0'}" class="quantity-input" data-product="${product.name}" data-flavor-index="${flavorIndex}">
+            </div>
+        `).join('');
+
         return `
             <div class="product-line">
                 <label class="checkbox-option">
@@ -141,13 +159,7 @@ function renderProductOptions() {
                     ${product.name}
                 </label>
                 <div class="quantity-field" data-for="${product.name}" style="display: none;">
-                    <label for="flavor-${slug}">Escolha o Sabor:</label>
-                    <select id="flavor-${slug}" name="flavor-${slug}" class="flavor-select" data-product="${product.name}">
-                        ${flavorOptions}
-                    </select>
-
-                    <label for="quantity-${slug}">Quantidade:</label>
-                    <input type="number" id="quantity-${slug}" name="quantity-${slug}" class="quantity-input" min="1" value="1" data-product="${product.name}">
+                    ${flavorFields}
 
                     <p class="price-display" data-product="${product.name}">Preço: <strong>R$ ${formatCurrency(product.flavors[0].price)}</strong></p>
                 </div>
@@ -214,10 +226,11 @@ orderForm?.addEventListener('submit', (event) => {
         .filter(cb => cb.checked)
         .map(cb => {
             const productName = cb.value;
-            const qty = document.querySelector(`.quantity-input[data-product="${productName}"]`)?.value || '1';
-            const flavorDetails = getFlavorDetails(productName);
-            const total = (flavorDetails.price * parseInt(qty, 10) || 0).toFixed(2).replace('.', ',');
-            return `${productName}\n  - Sabor: ${flavorDetails.label}\n  - Quantidade: ${qty}\n  - Preço Total: R$ ${total}`;
+            const flavorLines = getSelectedFlavorDetails(productName).map(flavor => {
+                const total = (flavor.price * flavor.quantity).toFixed(2).replace('.', ',');
+                return `  - Sabor: ${flavor.label}\n  - Quantidade: ${flavor.quantity}\n  - Preço Total: R$ ${total}`;
+            });
+            return `${productName}\n${flavorLines.join('\n')}`;
         });
 
     const productsText = selectedItems.length ? selectedItems.join('\n\n') : 'Nenhum produto selecionado';
