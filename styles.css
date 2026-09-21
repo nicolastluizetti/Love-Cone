@@ -272,6 +272,12 @@ h3 {
     width: 120px;
 }
 
+.flavor-entry {
+    padding-bottom: var(--spacing-small);
+    margin-bottom: var(--spacing-small);
+    border-bottom: 1px solid var(--color-border);
+}
+
 .flavor-select {
     width: 100%;
     padding: var(--spacing-small);
