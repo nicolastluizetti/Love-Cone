@@ -1,123 +1,157 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedidos - LoveCone</title>
+    <meta name="description" content="Faça seu pedido na LoveCone e personalize seus doces artesanais com entrega ou retirada.">
+    <title>Pedidos | LoveCone</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <img class="logo"src="assets/logo4.png" alt="lovecone">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">Sobre</a></li>
-            <li><a href="candy.html">Doces</a></li>
-            <li><a href="order.html">Pedidos</a></li>
-            <li><a href="contact.html">Contato</a></li>
-            <img class="logo"src="assets/logo4.png" alt="lovecone">
-        </ul>
-    </nav>
+    <header class="site-header">
+        <div class="container navbar">
+            <a href="index.html" class="brand" aria-label="LoveCone home">
+                <img src="assets/logo4.png" alt="LoveCone logo">
+                <span>LoveCone</span>
+            </a>
+
+            <nav class="main-nav" aria-label="Navegação principal">
+                <a href="index.html">Home</a>
+                <a href="about.html">Sobre</a>
+                <a href="candy.html">Doces</a>
+                <a href="order.html" class="active">Pedidos</a>
+                <a href="cart.html">Carrinho</a>
+                <a href="contact.html">Contato</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="btn btn-light" href="contact.html">Instagram</a>
+                <a class="btn btn-cart" href="cart.html">
+                    Carrinho
+                    <span class="cart-badge-pill" data-cart-nav-count>0</span>
+                </a>
+                <a class="btn btn-primary" href="order.html">Fazer pedido</a>
+            </div>
+        </div>
+    </header>
 
     <main>
         <section class="order-hero">
-            <h1>Faça Seu Pedido</h1>
+            <div class="container">
+                <div class="page-copy">
+                    <span class="eyebrow">Personalize seu pedido</span>
+                    <h1>Monte sua experiência doce</h1>
+                </div>
+            </div>
         </section>
 
-        <form class="order-form" id="orderForm">
-            <label for="name">Nome Completo:</label>
-            <input type="text" id="name" name="name" required pattern="[A-Za-zÀ-ÿ\s]+" title="Digite apenas letras e espaços">
+        <section class="section">
+            <div class="container order-layout">
+                <form class="order-form" id="orderForm">
+                    <h3>Dados do cliente</h3>
 
-            <label for="cep">CEP:</label>
-<input
-    type="text"
-    id="cep"
-    name="cep"
-    maxlength="9"
-    placeholder="00000-000"
-    required>
+                    <label for="name">Nome Completo:</label>
+                    <input type="text" id="name" name="name" required pattern="[A-Za-zÀ-ÿ\s]+" title="Digite apenas letras e espaços">
 
-<label for="street">Rua:</label>
-<input
-    type="text"
-    id="street"
-    name="street"
-    placeholder="Digite o nome da rua"
-    required>
+                    <label for="cep">CEP:</label>
+                    <input type="text" id="cep" name="cep" maxlength="9" placeholder="00000-000" required>
 
-<label for="number">Número:</label>
-<input
-    type="text"
-    id="number"
-    name="number"
-    placeholder="123"
-    required>
+                    <label for="street">Rua:</label>
+                    <input type="text" id="street" name="street" placeholder="Digite o nome da rua" required>
 
-<label for="complement">Complemento:</label>
-<input
-    type="text"
-    id="complement"
-    name="complement"
-    placeholder="Casa, Apto, Bloco...">
+                    <label for="number">Número:</label>
+                    <input type="text" id="number" name="number" placeholder="123" required>
 
-<div class="delivery-row">
-    <div class="delivery-label">
-        <label>Opção de Entrega:</label>
-    </div>
-    <div class="delivery-option">
-        <label class="radio-option"><input type="radio" name="deliveryOption" value="pickup" checked> Retirada</label>
-        <label class="radio-option"><input type="radio" name="deliveryOption" value="delivery"> Entrega</label>
-    </div>
-</div>
+                    <label for="complement">Complemento:</label>
+                    <input type="text" id="complement" name="complement" placeholder="Casa, Apto, Bloco...">
 
+                    <div class="delivery-row">
+                        <label>Opção de Entrega:</label>
+                        <div class="delivery-option">
+                            <label class="radio-option"><input type="radio" name="deliveryOption" value="pickup" checked> Retirada</label>
+                            <label class="radio-option"><input type="radio" name="deliveryOption" value="delivery"> Entrega</label>
+                        </div>
+                    </div>
 
+                    <div id="orderTotalContainer" class="order-total-container">
+                        <p>Total dos produtos: R$ <strong id="productTotal">0,00</strong></p>
+                        <p>Total do pedido: R$ <strong id="orderTotal">0,00</strong></p>
+                    </div>
 
-<div id="orderTotalContainer" class="order-total-container">
-    <p>Total dos produtos: R$ <strong id="productTotal">0,00</strong></p>
-    <p>Total do pedido: R$ <strong id="orderTotal">0,00</strong></p>
-</div>
+                    <label for="district">Bairro:</label>
+                    <input type="text" id="district" name="district" readonly>
 
-<label for="district">Bairro:</label>
-<input
-    type="text"
-    id="district"
-    name="district"
-    readonly>
+                    <label for="city">Cidade:</label>
+                    <input type="text" id="city" name="city" readonly>
 
-<label for="city">Cidade:</label>
-<input
-    type="text"
-    id="city"
-    name="city"
-    readonly>
+                    <label for="state">Estado:</label>
+                    <input type="text" id="state" name="state" readonly>
 
-<label for="state">Estado:</label>
-<input
-    type="text"
-    id="state"
-    name="state"
-    readonly>
+                    <input type="hidden" id="fullAddress" name="fullAddress">
 
-<input
-    type="hidden"
-    id="fullAddress"
-    name="fullAddress">
+                    <label>Produtos:</label>
+                    <div class="product-options" id="productOptions"></div>
 
-            <label>Produtos:</label>
-            <div class="product-options" id="productOptions"></div>
+                    <label for="date">Data Desejada:</label>
+                    <input type="date" id="date" name="date" required>
 
-            <label for="date">Data Desejada:</label>
-            <input type="date" id="date" name="date" required>
+                    <label for="message">Mensagem Adicional:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Adicione informações que desejar"></textarea>
 
-            <label for="message">Mensagem Adicional:</label>
-            <textarea id="message" name="message" rows="4" placeholder="adicione informações que desejar"></textarea>
+                    <button type="submit">Enviar Pedido</button>
+                </form>
 
-            <button type="submit">Enviar Pedido</button>
-        </form>
+                <aside class="cart-summary">
+                    <div class="cart-summary-header">
+                        <h3>Resumo do pedido</h3>
+                        <span class="cart-badge" id="cartCount">0</span>
+                    </div>
+                    <ul class="cart-summary-list" id="cartSummaryList">
+                        <li class="cart-empty">Seu carrinho está vazio.</li>
+                    </ul>
+                    <div class="cart-summary-total">
+                        <span>Total</span>
+                        <span id="cartTotal">R$ 0,00</span>
+                    </div>
+                </aside>
+            </div>
+        </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 LoveCone. Todos os direitos reservados.</p>
+    <a class="wa-float" href="https://wa.me/5511971830218" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">💬</a>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="index.html" class="brand" aria-label="LoveCone home">
+                    <img src="assets/logo4.png" alt="LoveCone logo">
+                    <span style="color: #fff;">LoveCone</span>
+                </a>
+                <p style="margin-top: 1rem;">Pedidos especiais com atenção, sabor e apresentação premium.</p>
+            </div>
+
+            <div>
+                <h4>Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="candy.html">Doces</a></li>
+                    <li><a href="order.html">Pedidos</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Contato</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Fale conosco</a></li>
+                    <li><a href="https://wa.me/5511971830218" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    <li><a href="https://www.instagram.com/loveconechocolates/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">&copy; 2026 LoveCone. Todos os direitos reservados.</div>
     </footer>
 
     <script src="scrip.js"></script>
