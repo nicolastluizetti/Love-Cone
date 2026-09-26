@@ -3,31 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre - LoveCone</title>
+    <meta name="description" content="Conheça a história da LoveCone e nossa missão de transformar momentos em experiências doces e memoráveis.">
+    <title>Sobre | LoveCone</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <img class="logo"src="assets/logo4.png" alt="lovecone">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">Sobre</a></li>
-            <li><a href="candy.html">Doces</a></li>
-            <li><a href="order.html">Pedidos</a></li>
-            <li><a href="contact.html">Contato</a></li>
-            <img class="logo"src="assets/logo4.png" alt="lovecone">
-        </ul>
-    </nav>
+    <header class="site-header">
+        <div class="container navbar">
+            <a href="index.html" class="brand" aria-label="LoveCone home">
+                <img src="assets/logo4.png" alt="LoveCone logo">
+                <span>LoveCone</span>
+            </a>
+
+            <nav class="main-nav" aria-label="Navegação principal">
+                <a href="index.html">Home</a>
+                <a href="about.html" class="active">Sobre</a>
+                <a href="candy.html">Doces</a>
+                <a href="order.html">Pedidos</a>
+                <a href="cart.html">Carrinho</a>
+                <a href="contact.html">Contato</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="btn btn-light" href="contact.html">Instagram</a>
+                <a class="btn btn-cart" href="cart.html">
+                    Carrinho
+                    <span class="cart-badge-pill" data-cart-nav-count>0</span>
+                </a>
+                <a class="btn btn-primary" href="order.html">Fazer pedido</a>
+            </div>
+        </div>
+    </header>
 
     <main>
-        <h1>Sobre o LoveCone</h1>
-        <p>O LoveCone é uma empresa especializada em confeitaria artesanal, com mais de 10 anos de experiência no mercado.</p>
-        <p>Nossa missão é proporcionar os melhores doces e sobremesas para seus momentos especiais, utilizando sempre ingredientes de qualidade.</p>
-        <p>Oferecemos uma variedade de produtos deliciosos, desde bombons até capsulas de cappucino artesanais.</p>
+        <section class="about-hero">
+            <div class="container">
+                <div class="page-copy">
+                    <span class="eyebrow">Nossa história</span>
+                    <h1>Amor, técnica e sabor em cada criação.</h1>
+                    <p>A LoveCone nasceu da vontade de transformar pequenos momentos em lembranças doces, com receitas artesanais e atenção aos detalhes.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container about-grid">
+                <article class="story-card">
+                    <h3>Como tudo começou</h3>
+                    <p>Desde o início, a LoveCone foi construída com a ideia de que doces não são apenas sobremesas: são experiências, presentes e celebrações.</p>
+                    <p>Com dedicação, estudo e muita paixão, a marca evoluiu para oferecer produções especiais para festas, lembranças, eventos e pedidos personalizados.</p>
+
+                    <ul>
+                        <li>Receitas desenvolvidas com carinho e personalidade.</li>
+                        <li>Ingredientes escolhidos com foco em qualidade.</li>
+                        <li>Apresentação que transforma cada pedido em algo memorável.</li>
+                    </ul>
+                </article>
+
+                <aside class="info-card">
+                    <h3>Missão</h3>
+                    <p>Encantar clientes com produtos artesanais, elegantes e irresistíveis.</p>
+
+                    <h3 style="margin-top: 1.6rem;">Valores</h3>
+                    <p>Qualidade, originalidade, transparência e acolhimento em cada atendimento.</p>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <strong>10+</strong>
+                        <span>anos de experiência</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>100%</strong>
+                        <span>artesanal</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>+500</strong>
+                        <span>pedidos especiais</span>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 LoveCone. Todos os direitos reservados.</p>
+    <a class="wa-float" href="https://wa.me/5511971830218" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">💬</a>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="index.html" class="brand" aria-label="LoveCone home">
+                    <img src="assets/logo4.png" alt="LoveCone logo">
+                    <span style="color: #fff;">LoveCone</span>
+                </a>
+                <p style="margin-top: 1rem;">Doces artesanais com cuidado, qualidade e muito amor.</p>
+            </div>
+
+            <div>
+                <h4>Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="candy.html">Doces</a></li>
+                    <li><a href="order.html">Pedidos</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Contato</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Fale conosco</a></li>
+                    <li><a href="https://wa.me/5511971830218" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    <li><a href="https://www.instagram.com/loveconechocolates/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">&copy; 2026 LoveCone. Todos os direitos reservados.</div>
     </footer>
 
     <script src="scrip.js"></script>
