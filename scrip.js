@@ -108,17 +108,64 @@ function renderCartPage() {
 const orderProducts = [
     {
         name: 'Oreo Surprise',
+        image: 'assets/oreosurprise.jpeg',
+        description: 'Crocância, cremosidade e o sabor irresistível do Oreo em uma apresentação premium.',
+        tag: 'Mais pedido',
+        price: 39,
         flavors: [
-            { label: 'Doce de leite', value: 'Doce de leite', price: 10 },
-            { label: 'Creme de Avelã', value: 'Creme de Avelã', price: 10 }
+            { label: 'Chocolate', value: 'Chocolate', price: 39 },
+            { label: 'Doce de leite', value: 'Doce de leite', price: 39 },
+            { label: 'Creme de avelã', value: 'Creme de avelã', price: 39 }
+        ]
+    },
+    {
+        name: 'Brownie',
+        image: 'assets/brownie.jpeg',
+        description: 'Textura macia e sabor intenso para presentear, celebrar ou surpreender.',
+        tag: 'Clássico',
+        price: 32,
+        flavors: [
+            { label: 'Chocolate intenso', value: 'Chocolate intenso', price: 32 },
+            { label: 'Prestígio', value: 'Prestígio', price: 32 },
+            { label: 'Ninho', value: 'Ninho', price: 32 }
         ]
     },
     {
         name: 'Cápsula Artesanal de Café',
+        image: 'assets/capsula-de-cafe.png',
+        description: 'Uma experiência gourmet para quem aprecia café com personalidade e sofisticação.',
+        tag: 'Especial',
+        price: 28,
         flavors: [
-            { label: 'Chocolate Quente Alpino', value: 'Chocolate Quente Alpino', price: 7 },
-            { label: 'Cappucino Alpino', value: 'Cappucino Alpino', price: 7 },
-            { label: 'Latte Alpino', value: 'Latte Alpino', price: 7 }
+            { label: 'Chocolate Quente Alpino', value: 'Chocolate Quente Alpino', price: 28 },
+            { label: 'Cappucino Alpino', value: 'Cappucino Alpino', price: 28 },
+            { label: 'Latte Alpino', value: 'Latte Alpino', price: 28 }
+        ]
+    },
+    {
+        name: 'Bolo de Pote',
+        image: 'assets/bolodepote.png',
+        description: 'Porção cremosa, visual elegante e sabor marcante para presentear em qualquer ocasião.',
+        tag: 'Personalizado',
+        price: 25,
+        flavors: [
+            { label: 'Morango', value: 'Morango', price: 25 },
+            { label: 'Chocolate', value: 'Chocolate', price: 25 },
+            { label: 'Doce de leite', value: 'Doce de leite', price: 25 },
+            { label: 'Ninho', value: 'Ninho', price: 25 }
+        ]
+    },
+    {
+        name: 'Copo da Felicidade',
+        image: 'assets/copo_da_felicidade.png',
+        description: 'Uma sobremesa moderna, prática e irresistível para entregar mais alegria.',
+        tag: 'Gostinho especial',
+        price: 22,
+        flavors: [
+            { label: 'Oreo', value: 'Oreo', price: 22 },
+            { label: 'Chocolate', value: 'Chocolate', price: 22 },
+            { label: 'Morango', value: 'Morango', price: 22 },
+            { label: 'Leite ninho', value: 'Leite ninho', price: 22 }
         ]
     }
 ];
@@ -173,26 +220,59 @@ function slugify(value) {
         .replace(/(^-|-$)/g, '');
 }
 
-function getFlavorDetails(productName, flavorIndex = 0) {
-    const product = orderProducts.find(item => item.name === productName);
-    const flavorSelect = document.querySelector(`.flavor-select[data-product="${productName}"][data-flavor-index="${flavorIndex}"]`);
-    const selectedOption = flavorSelect?.selectedOptions[0];
+function getFlavorOptionsMarkup(product) {
+    return product.flavors.map((flavor) => `
+        <option value="${flavor.value}" data-price="${flavor.price.toFixed(2)}">
+            ${flavor.label} - R$ ${formatCurrency(flavor.price)}
+        </option>
+    `).join('');
+}
 
-    return {
-        value: selectedOption?.value || product?.flavors[0]?.value || 'Sem sabor',
-        label: selectedOption?.textContent?.replace(/\s*-\s*R\$\s*[\d.,]+$/, '').trim() || product?.flavors[0]?.label || 'Sem sabor',
-        price: Number(selectedOption?.dataset.price || product?.flavors[0]?.price || 0)
-    };
+function createFlavorRow(productName, rowIndex = 0) {
+    const product = orderProducts.find(item => item.name === productName);
+    if (!product) return '';
+
+    return `
+        <div class="flavor-row" data-product="${productName}" data-row-index="${rowIndex}">
+            <div class="field-group">
+                <label>Sabor</label>
+                <select class="flavor-select" data-product="${productName}" data-row-index="${rowIndex}">
+                    ${getFlavorOptionsMarkup(product)}
+                </select>
+            </div>
+
+            <div class="field-group narrow">
+                <label>Qtd.</label>
+                <input type="number" class="quantity-input" data-product="${productName}" data-row-index="${rowIndex}" min="1" value="1">
+            </div>
+
+            <button type="button" class="remove-flavor-row" data-product="${productName}" data-row-index="${rowIndex}" aria-label="Remover sabor">×</button>
+        </div>
+    `;
 }
 
 function getSelectedFlavorDetails(productName) {
-    return Array.from(document.querySelectorAll(`.flavor-entry[data-product="${productName}"]`))
-        .map(entry => {
-            const flavorIndex = Number(entry.dataset.flavorIndex);
-            const quantity = parseInt(entry.querySelector('.quantity-input')?.value, 10) || 0;
-            return { ...getFlavorDetails(productName, flavorIndex), quantity };
+    const product = orderProducts.find(item => item.name === productName);
+    const checkbox = document.querySelector(`input[name="products"][value="${productName}"]`);
+    if (!checkbox || !checkbox.checked || !product) return [];
+
+    return Array.from(document.querySelectorAll(`.flavor-row[data-product="${productName}"]`))
+        .map((row) => {
+            const select = row.querySelector('.flavor-select');
+            const input = row.querySelector('.quantity-input');
+            const selectedOption = select?.selectedOptions[0];
+            const quantity = Number(input?.value || 0);
+
+            if (!quantity) return null;
+
+            return {
+                value: selectedOption?.value || product.flavors[0].value,
+                label: selectedOption?.textContent?.replace(/\s*-\s*R\$\s*[\d.,]+$/, '').trim() || product.flavors[0].label,
+                price: Number(selectedOption?.dataset.price || product.flavors[0].price || 0),
+                quantity
+            };
         })
-        .filter(flavor => flavor.quantity > 0);
+        .filter(Boolean);
 }
 
 function getProductTotalValue() {
@@ -200,8 +280,8 @@ function getProductTotalValue() {
         .filter(cb => cb.checked)
         .reduce((sum, cb) => {
             const productName = cb.value;
-            return sum + getSelectedFlavorDetails(productName)
-                .reduce((productSum, flavor) => productSum + (flavor.price * flavor.quantity), 0);
+            const details = getSelectedFlavorDetails(productName);
+            return sum + details.reduce((productSum, flavor) => productSum + (flavor.price * flavor.quantity), 0);
         }, 0);
 }
 
@@ -217,13 +297,13 @@ function updateCartSummary() {
         .map(cb => {
             const productName = cb.value;
             const details = getSelectedFlavorDetails(productName);
-            const itemTotal = details.reduce((sum, flavor) => sum + (flavor.price * flavor.quantity), 0);
             const quantity = details.reduce((sum, flavor) => sum + flavor.quantity, 0);
+            const total = details.reduce((sum, flavor) => sum + (flavor.price * flavor.quantity), 0);
             return {
                 name: productName,
                 quantity,
-                total: itemTotal,
-                details: details
+                total,
+                details
             };
         })
         .filter(item => item.quantity > 0);
@@ -257,12 +337,12 @@ function updateOrderTotals() {
 }
 
 function calculatePrice(productName) {
-    const priceDisplay = document.querySelector(`.price-display[data-product="${productName}"]`);
-    if (!priceDisplay) return 0;
-
     const total = getSelectedFlavorDetails(productName)
         .reduce((sum, flavor) => sum + (flavor.price * flavor.quantity), 0);
-    priceDisplay.innerHTML = `Preço: <strong>R$ ${formatCurrency(total)}</strong>`;
+    const priceDisplay = document.querySelector(`.product-price[data-product="${productName}"]`);
+    if (priceDisplay) {
+        priceDisplay.textContent = `R$ ${formatCurrency(total)}`;
+    }
     return total;
 }
 
@@ -271,36 +351,36 @@ function renderProductOptions() {
 
     productOptionsContainer.innerHTML = orderProducts.map((product) => {
         const slug = slugify(product.name);
-        const flavorOptions = product.flavors.map((flavor, index) => `
-            <option value="${flavor.value}" data-price="${flavor.price.toFixed(2)}" ${index === 0 ? 'selected' : ''}>
-                ${flavor.label} - R$ ${formatCurrency(flavor.price)}
-            </option>
-        `).join('');
-
-        const flavorFields = [0, 1].map(flavorIndex => `
-            <div class="flavor-entry" data-product="${product.name}" data-flavor-index="${flavorIndex}">
-                <label for="flavor-${slug}-${flavorIndex}">${flavorIndex === 0 ? 'Escolha o Sabor:' : 'Segundo Sabor:'}</label>
-                <select id="flavor-${slug}-${flavorIndex}" name="flavor-${slug}-${flavorIndex}" class="flavor-select" data-product="${product.name}" data-flavor-index="${flavorIndex}">
-                    ${flavorOptions}
-                </select>
-
-                <label for="quantity-${slug}-${flavorIndex}">Quantidade:</label>
-                <input type="number" id="quantity-${slug}-${flavorIndex}" name="quantity-${slug}-${flavorIndex}" min="${flavorIndex === 0 ? '1' : '0'}" value="${flavorIndex === 0 ? '1' : '0'}" class="quantity-input" data-product="${product.name}" data-flavor-index="${flavorIndex}">
-            </div>
-        `).join('');
 
         return `
-            <div class="product-line">
-                <label class="checkbox-option">
-                    <input type="checkbox" name="products" value="${product.name}" data-product="${product.name}">
-                    ${product.name}
-                </label>
-                <div class="quantity-field" data-for="${product.name}" style="display: none;">
-                    ${flavorFields}
-
-                    <p class="price-display" data-product="${product.name}">Preço: <strong>R$ ${formatCurrency(product.flavors[0].price)}</strong></p>
+            <article class="product-card-option">
+                <div class="product-card-media">
+                    <img src="${product.image}" alt="${product.name}">
                 </div>
-            </div>
+
+                <div class="product-card-body">
+                    <div class="product-card-header">
+                        <div>
+                            <span class="product-card-tag">${product.tag}</span>
+                            <h4>${product.name}</h4>
+                        </div>
+                        <strong class="product-price" data-product="${product.name}">R$ ${formatCurrency(product.price)}</strong>
+                    </div>
+
+                    <p>${product.description}</p>
+
+                    <label class="product-select-toggle">
+                        <input type="checkbox" name="products" value="${product.name}" data-product="${product.name}">
+                        Selecionar este doce
+                    </label>
+
+                    <div class="flavor-list" data-product="${product.name}">
+                        ${createFlavorRow(product.name, 0)}
+                    </div>
+
+                    <button type="button" class="add-flavor-row" data-product="${product.name}">+ Adicionar mais um sabor</button>
+                </div>
+            </article>
         `;
     }).join('');
 
@@ -312,20 +392,11 @@ function bindProductEvents() {
     productCheckboxes = document.querySelectorAll('input[name="products"]');
     flavorSelects = document.querySelectorAll('.flavor-select');
     quantityInputs = document.querySelectorAll('.quantity-input');
-    quantityFields = document.querySelectorAll('.quantity-field');
 
     productCheckboxes.forEach(cb => {
         cb.addEventListener('change', () => {
-            const productName = cb.getAttribute('data-product');
-            const field = document.querySelector(`.quantity-field[data-for="${productName}"]`);
-            if (field) field.style.display = cb.checked ? 'block' : 'none';
-            if (cb.checked) calculatePrice(productName);
             updateOrderTotals();
         });
-    });
-
-    document.querySelectorAll('.product-line input[name="products"]').forEach(cb => {
-        cb.addEventListener('change', updateCartSummary);
     });
 
     flavorSelects.forEach(select => {
@@ -340,6 +411,31 @@ function bindProductEvents() {
         input.addEventListener('input', () => {
             const productName = input.getAttribute('data-product');
             calculatePrice(productName);
+            updateOrderTotals();
+        });
+    });
+
+    document.querySelectorAll('.add-flavor-row').forEach(button => {
+        button.addEventListener('click', () => {
+            const productName = button.getAttribute('data-product');
+            const list = document.querySelector(`.flavor-list[data-product="${productName}"]`);
+            const rows = list?.querySelectorAll('.flavor-row') || [];
+            list?.insertAdjacentHTML('beforeend', createFlavorRow(productName, rows.length));
+            bindProductEvents();
+        });
+    });
+
+    document.querySelectorAll('.remove-flavor-row').forEach(button => {
+        button.addEventListener('click', () => {
+            const productName = button.getAttribute('data-product');
+            const row = button.closest('.flavor-row');
+            const list = document.querySelector(`.flavor-list[data-product="${productName}"]`);
+            const rows = list?.querySelectorAll('.flavor-row') || [];
+
+            if (rows.length > 1) {
+                row?.remove();
+            }
+
             updateOrderTotals();
         });
     });
