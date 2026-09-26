@@ -3,84 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doces - LoveCone</title>
+    <meta name="description" content="Explore a linha premium de doces artesanais da LoveCone e escolha os favoritos da casa.">
+    <title>Doces | LoveCone</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <img class="logo"src="assets/logo4.png" alt="lovecone">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">Sobre</a></li>
-            <li><a href="candy.html">Doces</a></li>
-            <li><a href="order.html">Pedidos</a></li>
-            <li><a href="contact.html">Contato</a></li>
-            <img class="logo"src="assets/logo4.png" alt="lovecone">
-        </ul>
-    </nav>
+    <header class="site-header">
+        <div class="container navbar">
+            <a href="index.html" class="brand" aria-label="LoveCone home">
+                <img src="assets/logo4.png" alt="LoveCone logo">
+                <span>LoveCone</span>
+            </a>
+
+            <nav class="main-nav" aria-label="Navegação principal">
+                <a href="index.html">Home</a>
+                <a href="about.html">Sobre</a>
+                <a href="candy.html" class="active">Doces</a>
+                <a href="order.html">Pedidos</a>
+                <a href="cart.html">Carrinho</a>
+                <a href="contact.html">Contato</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="btn btn-light" href="contact.html">Instagram</a>
+                <a class="btn btn-cart" href="cart.html">
+                    Carrinho
+                    <span class="cart-badge-pill" data-cart-nav-count>0</span>
+                </a>
+                <a class="btn btn-primary" href="order.html">Fazer pedido</a>
+            </div>
+        </div>
+    </header>
 
     <main>
         <section class="candy-hero">
-            <h1>Nossos Doces</h1>
-            <p style="color: antiquewhite;">Conheça nossa deliciosa seleção de doces artesanais e descubra os sabores que encantam cada cliente.</p>
+            <div class="container">
+                <div class="page-copy">
+                    <span class="eyebrow">Linha premium</span>
+                    <h1>Nossos doces artesanais</h1>
+                    <p>Conheça os sabores que conquistam o paladar e celebram cada ocasião com sofisticação e carinho.</p>
+                </div>
+            </div>
         </section>
 
-        <section class="slider-section" aria-label="Carrossel de produtos">
-            <div class="slider-controls">
-                <button class="slider-btn prev" type="button" aria-label="Slide anterior">&#10094;</button>
+        <section class="section slider-section" aria-label="Carrossel de produtos">
+            <div class="container">
+                <div class="slider-controls">
+                    <button class="slider-btn prev" type="button" aria-label="Slide anterior">&#10094;</button>
 
-                <div class="slider-view">
-                    <article class="slide active">
-                        <a class="slide-image" href="assets/oreosurprise.jpeg" target="_blank" rel="noopener noreferrer">
-                            <img src="assets/oreosurprise.jpeg" alt="Oreo Surprise">
-                        </a>
-                        <div class="slide-content">
-                            <h3>Oreo Surprise</h3>
-                            <p>Uma explosão de textura crocante com creme suave e um toque irresistível de Oreo.</p>
-                            
-                        </div>
-                    </article>
+                    <div class="slider-view">
+                        <article class="slide active">
+                            <a class="slide-image" href="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1200&q=80" target="_blank" rel="noopener noreferrer">
+                                <img src="assets/oreosurprise.jpeg" alt="Oreo Surprise">
+                            </a>
+                            <div class="slide-content">
+                                <span class="eyebrow">Mais pedido</span>
+                                <h3>Oreo Surprise</h3>
+                                <p>Uma explosão de crocância, cremosidade e sabor que faz qualquer ocasião ficar mais especial.</p>
+                                <a class="btn btn-primary" href="order.html">Pedir agora</a>
+                            </div>
+                        </article>
 
-                    <article class="slide">
-                        <a class="slide-image" href="assets/brownie.jpeg" target="_blank" rel="noopener noreferrer">
-                            <img src="assets/brownie.jpeg" alt="Brownie">
-                        </a>
-                        <div class="slide-content">
-                            <h3>Brownie</h3>
-                            <p>Brownie delicioso com camadas de chocolate e recheio cremoso.</p>
-                           
-                        </div>
-                    </article>
+                        <article class="slide">
+                            <a class="slide-image" href="assets/brownie.jpeg" target="_blank" rel="noopener noreferrer">
+                                <img src="assets/brownie.jpeg" alt="Brownie">
+                            </a>
+                            <div class="slide-content">
+                                <span class="eyebrow">Clássico</span>
+                                <h3>Brownie</h3>
+                                <p>Textura macia, sabor intenso e apresentação sofisticada para presentes e festas.</p>
+                                <a class="btn btn-primary" href="order.html">Pedir agora</a>
+                            </div>
+                        </article>
 
-                    <article class="slide">
-                        <a class="slide-image" href="assets/capsula-de-cafe.png" target="_blank" rel="noopener noreferrer">
-                            <img src="assets/capsula-de-cafe.png" alt="Cápsula Artesanal de Café">
-                        </a>
-                        <div class="slide-content">
-                            <h3>Cápsula Artesanal de Café</h3>
-                            <p>Uma experiência gourmet para quem ama café com personalidade, aroma e sabor marcantes.</p>
-                        </div>
-                    </article>
+                        <article class="slide">
+                            <a class="slide-image" href="assets/capsula-de-cafe.png" target="_blank" rel="noopener noreferrer">
+                                <img src="assets/capsula-de-cafe.png" alt="Cápsula Artesanal de Café">
+                            </a>
+                            <div class="slide-content">
+                                <span class="eyebrow">Especial</span>
+                                <h3>Cápsula Artesanal de Café</h3>
+                                <p>Uma experiência gourmet para quem ama café e quer algo de alto padrão e exclusivo.</p>
+                                <a class="btn btn-primary" href="order.html">Pedir agora</a>
+                            </div>
+                        </article>
+                    </div>
+
+                    <button class="slider-btn next" type="button" aria-label="Próximo slide">&#10095;</button>
                 </div>
 
-                <button class="slider-btn next" type="button" aria-label="Próximo slide">&#10095;</button>
+                <div class="slider-dots" role="tablist" aria-label="Selecionar slide">
+                    <button class="dot active" type="button" data-slide="0" aria-label="Ir para o slide 1"></button>
+                    <button class="dot" type="button" data-slide="1" aria-label="Ir para o slide 2"></button>
+                    <button class="dot" type="button" data-slide="2" aria-label="Ir para o slide 3"></button>
+                </div>
             </div>
+        </section>
 
-            <div class="slider-dots" role="tablist" aria-label="Selecionar slide">
-                <button class="dot active" type="button" data-slide="0" aria-label="Ir para o slide 1"></button>
-                <button class="dot" type="button" data-slide="1" aria-label="Ir para o slide 2"></button>
-                <button class="dot" type="button" data-slide="2" aria-label="Ir para o slide 3"></button>
-                <button class="dot" type="button" data-slide="3" aria-label="Ir para o slide 4"></button>
+        <section class="section">
+            <div class="container">
+                <div class="mini-benefits">
+                    <article class="benefit-box">
+                        <span class="benefit-icon">✨</span>
+                        <h3>Personalização</h3>
+                        <p>Criações pensadas para festas, presentes e momentos especiais.</p>
+                    </article>
+
+                    <article class="benefit-box">
+                        <span class="benefit-icon">🚚</span>
+                        <h3>Entrega com cuidado</h3>
+                        <p>Embalagem premium e atenção para cada pedido chegar perfeito.</p>
+                    </article>
+
+                    <article class="benefit-box">
+                        <span class="benefit-icon">📷</span>
+                        <h3>Instagram</h3>
+                        <p>Veja mais inspirações e novidades no nosso perfil oficial.</p>
+                        <a class="mini-link" href="https://www.instagram.com/loveconechocolates/" target="_blank" rel="noopener noreferrer">Ver perfil</a>
+                    </article>
+                </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 LoveCone. Todos os direitos reservados.</p>
+    <a class="wa-float" href="https://wa.me/5511971830218" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">💬</a>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="index.html" class="brand" aria-label="LoveCone home">
+                    <img src="assets/logo4.png" alt="LoveCone logo">
+                    <span style="color: #fff;">LoveCone</span>
+                </a>
+                <p style="margin-top: 1rem;">Confeitaria artesanal para celebrar cada momento com sabor.</p>
+            </div>
+
+            <div>
+                <h4>Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="candy.html">Doces</a></li>
+                    <li><a href="order.html">Pedidos</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Contato</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Fale conosco</a></li>
+                    <li><a href="https://wa.me/5511971830218" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    <li><a href="https://www.instagram.com/loveconechocolates/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">&copy; 2026 LoveCone. Todos os direitos reservados.</div>
     </footer>
 
     <script src="scrip.js"></script>
-
     <script>
         const slides = Array.from(document.querySelectorAll('.slide'));
         const dots = Array.from(document.querySelectorAll('.dot'));
