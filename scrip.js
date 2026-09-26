@@ -12,6 +12,98 @@ const deliveryOptionInputs = document.querySelectorAll('input[name="deliveryOpti
 const productTotalSpan = document.getElementById('productTotal');
 const orderTotalSpan = document.getElementById('orderTotal');
 const productOptionsContainer = document.getElementById('productOptions');
+const cartItemsContainer = document.getElementById('cartItems');
+const cartEmptyState = document.getElementById('cartEmpty');
+const cartSubtotal = document.getElementById('cartSubtotal');
+const cartDelivery = document.getElementById('cartDelivery');
+const cartTotal = document.getElementById('cartTotal');
+const cartCountBadge = document.querySelector('[data-cart-count]');
+
+function getCart() {
+    try {
+        return JSON.parse(localStorage.getItem('lovecone-cart') || '[]');
+    } catch {
+        return [];
+    }
+}
+
+function saveCart(items) {
+    localStorage.setItem('lovecone-cart', JSON.stringify(items));
+}
+
+function addToCart(item) {
+    const cart = getCart();
+    const existingIndex = cart.findIndex(entry => entry.product === item.product && entry.flavor === item.flavor);
+
+    if (existingIndex >= 0) {
+        cart[existingIndex].quantity += item.quantity;
+    } else {
+        cart.push(item);
+    }
+
+    saveCart(cart);
+    renderCartPage();
+}
+
+function removeFromCart(product, flavor) {
+    const cart = getCart().filter(entry => !(entry.product === product && entry.flavor === flavor));
+    saveCart(cart);
+    renderCartPage();
+}
+
+function syncCartBadge() {
+    const countBadges = document.querySelectorAll('[data-cart-nav-count]');
+    const totalItems = getCart().reduce((sum, item) => sum + Number(item.quantity), 0);
+    countBadges.forEach(badge => {
+        badge.textContent = String(totalItems);
+    });
+}
+
+function renderCartPage() {
+    const cart = getCart();
+    const subtotal = cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
+    const delivery = subtotal > 99 ? 0 : 15;
+    const total = subtotal + delivery;
+    syncCartBadge();
+
+    if (cartItemsContainer) {
+        if (!cart.length) {
+            cartItemsContainer.innerHTML = '';
+            if (cartEmptyState) cartEmptyState.hidden = false;
+        } else {
+            if (cartEmptyState) cartEmptyState.hidden = true;
+            cartItemsContainer.innerHTML = cart.map((item) => `
+                <article class="cart-item">
+                    <div>
+                        <h4>${item.product}</h4>
+                        <div class="cart-item-meta">
+                            <span>Sabor: ${item.flavor}</span>
+                            <span>Quantidade: ${item.quantity}</span>
+                            <span>Valor unitário: R$ ${formatCurrency(item.price)}</span>
+                        </div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <span class="cart-item-total">R$ ${formatCurrency(Number(item.price) * Number(item.quantity))}</span>
+                        <button class="item-remove" type="button" aria-label="Remover item" data-remove-product="${item.product}" data-remove-flavor="${item.flavor}">×</button>
+                    </div>
+                </article>
+            `).join('');
+        }
+    }
+
+    if (cartSubtotal) cartSubtotal.textContent = `R$ ${formatCurrency(subtotal)}`;
+    if (cartDelivery) cartDelivery.textContent = `R$ ${formatCurrency(delivery)}`;
+    if (cartTotal) cartTotal.textContent = `R$ ${formatCurrency(total)}`;
+    if (cartCountBadge) cartCountBadge.textContent = String(cart.reduce((sum, item) => sum + Number(item.quantity), 0));
+
+    document.querySelectorAll('[data-remove-product]').forEach(button => {
+        button.addEventListener('click', () => {
+            const product = button.getAttribute('data-remove-product');
+            const flavor = button.getAttribute('data-remove-flavor');
+            removeFromCart(product, flavor);
+        });
+    });
+}
 
 const orderProducts = [
     {
@@ -113,10 +205,55 @@ function getProductTotalValue() {
         }, 0);
 }
 
+function updateCartSummary() {
+    const cartList = document.getElementById('cartSummaryList');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+
+    if (!cartList || !cartCount || !cartTotal) return;
+
+    const selectedProducts = Array.from(productCheckboxes || [])
+        .filter(cb => cb.checked)
+        .map(cb => {
+            const productName = cb.value;
+            const details = getSelectedFlavorDetails(productName);
+            const itemTotal = details.reduce((sum, flavor) => sum + (flavor.price * flavor.quantity), 0);
+            const quantity = details.reduce((sum, flavor) => sum + flavor.quantity, 0);
+            return {
+                name: productName,
+                quantity,
+                total: itemTotal,
+                details: details
+            };
+        })
+        .filter(item => item.quantity > 0);
+
+    cartCount.textContent = String(selectedProducts.reduce((sum, item) => sum + item.quantity, 0));
+    cartTotal.textContent = `R$ ${formatCurrency(selectedProducts.reduce((sum, item) => sum + item.total, 0))}`;
+
+    if (!selectedProducts.length) {
+        cartList.innerHTML = '<li class="cart-empty">Seu carrinho está vazio.</li>';
+        return;
+    }
+
+    cartList.innerHTML = selectedProducts.map(item => `
+        <li class="cart-summary-item">
+            <div>
+                <strong>${item.name}</strong>
+                <small>${item.quantity} unidade(s)</small>
+            </div>
+            <strong>R$ ${formatCurrency(item.total)}</strong>
+        </li>
+    `).join('');
+}
+
 function updateOrderTotals() {
+    if (!productTotalSpan || !orderTotalSpan) return;
+
     const productTotal = getProductTotalValue();
     productTotalSpan.textContent = formatCurrency(productTotal);
     orderTotalSpan.textContent = formatCurrency(productTotal);
+    updateCartSummary();
 }
 
 function calculatePrice(productName) {
@@ -187,6 +324,10 @@ function bindProductEvents() {
         });
     });
 
+    document.querySelectorAll('.product-line input[name="products"]').forEach(cb => {
+        cb.addEventListener('change', updateCartSummary);
+    });
+
     flavorSelects.forEach(select => {
         select.addEventListener('change', () => {
             const productName = select.getAttribute('data-product');
@@ -226,7 +367,16 @@ orderForm?.addEventListener('submit', (event) => {
         .filter(cb => cb.checked)
         .map(cb => {
             const productName = cb.value;
-            const flavorLines = getSelectedFlavorDetails(productName).map(flavor => {
+            const flavors = getSelectedFlavorDetails(productName);
+            flavors.forEach(flavor => {
+                addToCart({
+                    product: productName,
+                    flavor: flavor.label,
+                    quantity: flavor.quantity,
+                    price: flavor.price
+                });
+            });
+            const flavorLines = flavors.map(flavor => {
                 const total = (flavor.price * flavor.quantity).toFixed(2).replace('.', ',');
                 return `  - Sabor: ${flavor.label}\n  - Quantidade: ${flavor.quantity}\n  - Preço Total: R$ ${total}`;
             });
@@ -240,6 +390,7 @@ orderForm?.addEventListener('submit', (event) => {
     const messageText = `Olá! Gostaria de solicitar um orçamento.\n\nNome: ${name}\nEndereço: ${fullAddress}\nOpção: ${deliveryOption}\nTotal dos produtos: R$ ${productTotal}\n\nItens selecionados:\n${productsText}\n\nData desejada: ${date}\nMensagem: ${message}`;
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(messageText)}`;
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    window.location.href = 'cart.html';
 });
 
 // Contact form handler (kept)
@@ -289,12 +440,17 @@ streetInput?.addEventListener('blur', updateOrderTotals);
 cityInput?.addEventListener('blur', updateOrderTotals);
 stateInput?.addEventListener('blur', updateOrderTotals);
 
-// click sound
-const clickSound = new Audio('assets/click.mp3');
-clickSound.preload = 'auto'; clickSound.volume = 0.35;
-function playClickSound(){ clickSound.currentTime=0; clickSound.play().catch(()=>{}); }
-document.addEventListener('click', (event)=>{ const control = event.target.closest('button, a'); if (control && !control.disabled) playClickSound(); });
+// click sound removido para evitar erros em páginas sem áudio disponível
 
-renderProductOptions();
+if (productOptionsContainer) {
+    renderProductOptions();
+}
+
+if (document.body.dataset.page === 'cart') {
+    renderCartPage();
+} else {
+    syncCartBadge();
+}
+
 updateOrderTotals();
 // init autocomplete if API loaded
