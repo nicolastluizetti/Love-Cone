@@ -1,58 +1,338 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<header class="header">
-    <div class="container">
-
-        <a href="index.html" class="logo">
-            <img src="assets/logo4.png" alt="LoveCone">
-        </a>
-
-        <nav class="navigation">
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="about.html">Sobre</a></li>
-                <li><a href="candy.html">Doces</a></li>
-                <li><a href="order.html">Pedidos</a></li>
-                <li><a href="contact.html">Contato</a></li>
-            </ul>
-        </nav>
-
-        <a href="order.html" class="cart-button">
-            Meu carrinho
-        </a>
-
-    </div>
-</header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LoveCone - confeitaria artesanal com doces premium, pedidos personalizados e entrega com sabor e sofisticação.">
+    <title>LoveCone | Doces Artesanais Premium</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <nav>
-        <ul>
-            <img class="logo"src="assets/logo4.png" alt="lovecone">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">Sobre</a></li>
-            <li><a href="candy.html">Doces</a></li>
-            <li><a href="order.html">Pedidos</a></li>
-            <li><a href="contact.html">Contato</a></li>
-            <img class="logo"src="assets/logo4.png" alt="lovecone">
-        </ul>
-    </nav>
+    <header class="site-header">
+        <div class="container navbar">
+            <a href="index.html" class="brand" aria-label="LoveCone home">
+                <img src="assets/logo4.png" alt="LoveCone logo">
+                <span>LoveCone</span>
+            </a>
+
+            <nav class="main-nav" aria-label="Navegação principal">
+                <a href="index.html" class="active">Home</a>
+                <a href="about.html">Sobre</a>
+                <a href="candy.html">Doces</a>
+                <a href="order.html">Pedidos</a>
+                <a href="cart.html">Carrinho</a>
+                <a href="contact.html">Contato</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="btn btn-light" href="contact.html">Instagram</a>
+                <a class="btn btn-cart" href="cart.html">
+                    Carrinho
+                    <span class="cart-badge-pill" data-cart-nav-count>0</span>
+                </a>
+                <a class="btn btn-primary" href="order.html">Fazer pedido</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="promo-bar">Frete grátis para pedidos acima de R$ 99 e entrega em até 48h.</div>
 
     <main>
-        <h1>Bem-vindo ao LoveCone!</h1>
-        <p>A LoveCone nasceu da paixão pela confeitaria artesanal e do desejo de transformar ingredientes de qualidade em momentos especiais. Idealizada por uma confeiteira dedicada, que vem aperfeiçoando suas técnicas ao longo dos anos, a marca une criatividade, carinho e atenção aos detalhes para oferecer doces que encantam tanto pelo sabor quanto pela apresentação.
+        <section class="hero">
+            <div class="container hero-layout">
+                <div class="hero-copy">
+                    <span class="eyebrow">Confeitaria artesanal</span>
+                    <h1>Doces que transformam momentos em lembranças.</h1>
+                    <p>
+                        A LoveCone reúne sabor, criatividade e cuidado em cada criação.
+                        Desde receitas clássicas até combinações exclusivas, entregamos experiências doces para festas, presentes e celebrações especiais.
+                    </p>
+                    <div class="cta-group">
+                        <a class="btn btn-primary" href="candy.html">Ver catálogo</a>
+                        <a class="btn btn-secondary" href="order.html">Montar pedido</a>
+                    </div>
+                    <ul class="hero-list">
+                        <li>Ingredientes selecionados</li>
+                        <li>Produção artesanal</li>
+                        <li>Entrega com atenção total</li>
+                    </ul>
+                </div>
 
-Cada receita é preparada artesanalmente, com cuidado em cada etapa do processo, buscando proporcionar uma experiência única em cada mordida. A LoveCone acredita que um bom doce vai além do paladar: ele cria memórias, celebra conquistas e torna qualquer ocasião ainda mais especial.
+                <div class="hero-visual">
+                    <div class="showcase-card">
+                        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=900&q=80" alt="Doces artesanais em mesa elegante">
+                        <div class="floating-badge">
+                            <strong>4.9/5</strong>
+                            <span>avaliação dos clientes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-Com um olhar inovador e o compromisso de entregar sempre o melhor, a LoveCone está em constante evolução, desenvolvendo novas combinações de sabores e produtos que surpreendem e conquistam seus clientes.
+        <section class="section offer-strip">
+            <div class="container">
+                <div class="offer-grid">
+                    <article class="offer-card">
+                        <span class="badge">Oferta do dia</span>
+                        <strong>30% OFF</strong>
+                        <p>Em kits para festas e presentes especiais.</p>
+                    </article>
+                    <article class="offer-card">
+                        <span class="badge">Entrega</span>
+                        <strong>48h</strong>
+                        <p>Prazo rápido para pedidos de última hora.</p>
+                    </article>
+                    <article class="offer-card">
+                        <span class="badge">Personalização</span>
+                        <strong>100%</strong>
+                        <p>Produtos feitos para seu evento ou ocasião.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-Seja para presentear alguém especial, celebrar uma data importante ou simplesmente adoçar o seu dia, a LoveCone está pronta para levar até você qualidade, dedicação e muito amor em cada criação.
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Categorias</span>
+                    <h2>Escolha o momento perfeito</h2>
+                </div>
 
-visite nosso instagram pela pagina de contato
+                <div class="category-grid">
+                    <article class="category-card">
+                        <div class="category-icon">🎂</div>
+                        <h3>Festas</h3>
+                        <p>Kit premium para aniversários e celebrações.</p>
+                    </article>
+                    <article class="category-card">
+                        <div class="category-icon">🎁</div>
+                        <h3>Presentes</h3>
+                        <p>Caixas elegantes para dar e receber com amor.</p>
+                    </article>
+                    <article class="category-card">
+                        <div class="category-icon">☕</div>
+                        <h3>Especial</h3>
+                        <p>Combinações gourmets com café e doces refinados.</p>
+                    </article>
+                    <article class="category-card">
+                        <div class="category-icon">💌</div>
+                        <h3>Personalizados</h3>
+                        <p>Sabores, nomes e detalhes feitos por você.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-</p>
+        <div class="trust-bar">
+            <div class="container trust-grid">
+                <div class="trust-item">
+                    <strong>+10k</strong>
+                    <span>doces entregues</span>
+                </div>
+                <div class="trust-item">
+                    <strong>500+</strong>
+                    <span>pedidos personalizados</span>
+                </div>
+                <div class="trust-item">
+                    <strong>12</strong>
+                    <span>sabores premium</span>
+                </div>
+                <div class="trust-item">
+                    <strong>3h</strong>
+                    <span>média de preparo</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="section signature-section">
+            <div class="container">
+                <div class="signature-box">
+                    <div class="signature-content">
+                        <span class="eyebrow">Coleção assinatura</span>
+                        <h2>Presentes e festas com sabor premium.</h2>
+                        <p>Para quem quer surpreender com elegância, utilizamos ingredientes selecionados, acabamento refinado e personalização que torna cada pedido único.</p>
+
+                        <ul class="highlight-list">
+                            <li>Produção artesanal em pequenas quantidades</li>
+                            <li>Embalagem sofisticada para presentear</li>
+                            <li>Atendimento personalizado para cada evento</li>
+                        </ul>
+
+                        <a class="btn btn-primary" href="order.html">Fazer pedido personalizado</a>
+                    </div>
+
+                    <div class="signature-image">
+                        <img src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&w=900&q=80" alt="Mesa com doces premium e presente">
+                        <div class="mini-stat">
+                            <strong>+4.9</strong>
+                            <span>nossa nota de satisfação</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Por que escolher</span>
+                    <h2>Qualidade que faz a diferença</h2>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-item">
+                        <div class="feature-icon">✦</div>
+                        <h3>Receitas exclusivas</h3>
+                        <p>Criações pensadas para surpreender, com combinações sofisticadas e sabores marcantes.</p>
+                    </article>
+
+                    <article class="feature-item">
+                        <div class="feature-icon">♥</div>
+                        <h3>Detalhe artesanal</h3>
+                        <p>Cada produto é preparado com cuidado, personalização e uma apresentação que valoriza sua ocasião.</p>
+                    </article>
+
+                    <article class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Atendimento rápido</h3>
+                        <p>Fácil de pedir, com comunicação clara e processo simples para sua festa, presente ou evento.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Mais vendidos</span>
+                    <h2>Os favoritos da casa</h2>
+                </div>
+
+                <div class="product-grid">
+                    <article class="product-card">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=900&q=80" alt="Oreo Surprise">
+                        <div class="product-info">
+                            <span class="product-tag">Premium</span>
+                            <h3>Oreo Surprise</h3>
+                            <p>Textura crocante, cremosidade irresistível e sabor que conquista em cada mordida.</p>
+                            <div class="product-meta">
+                                <span class="price">R$ 39</span>
+                                <span class="rating">★★★★★</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80" alt="Brownie">
+                        <div class="product-info">
+                            <span class="product-tag">Clássico</span>
+                            <h3>Brownie Cremoso</h3>
+                            <p>Chocolate intenso com acabamento irresistível e produção artesanal impecável.</p>
+                            <div class="product-meta">
+                                <span class="price">R$ 32</span>
+                                <span class="rating">★★★★★</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card">
+                        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" alt="Cápsula Artesanal de Café">
+                        <div class="product-info">
+                            <span class="product-tag">Especial</span>
+                            <h3>Cápsula Artesanal</h3>
+                            <p>Uma experiência gourmet para quem adora café com aroma, textura e personalidade.</p>
+                            <div class="product-meta">
+                                <span class="price">R$ 28</span>
+                                <span class="rating">★★★★★</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="newsletter">
+                    <div>
+                        <span class="eyebrow">Newsletter LoveCone</span>
+                        <h3>Receba novidades e promoções exclusivas.</h3>
+                    </div>
+
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Seu melhor e-mail" aria-label="Seu melhor e-mail">
+                        <button type="submit" class="btn btn-primary">Quero entrar</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow">Depoimentos</span>
+                    <h2>Clientes que voltam para mais</h2>
+                </div>
+
+                <div class="testimonial-grid">
+                    <article class="testimonial">
+                        <div class="quote">“</div>
+                        <p>O atendimento foi impecável e os doces ficaram lindos. Uma experiência completa, do sabor à embalagem.</p>
+                        <strong>Marina S.</strong>
+                    </article>
+
+                    <article class="testimonial">
+                        <div class="quote">“</div>
+                        <p>Perfeitos para presentear. O brownie e a cápsula de café ficaram tão especiais que todos pediram o catálogo.</p>
+                        <strong>Rafael P.</strong>
+                    </article>
+
+                    <article class="testimonial">
+                        <div class="quote">“</div>
+                        <p>Qualidade premium e apresentação impecável. A LoveCone entregou exatamente o que prometeu.</p>
+                        <strong>Fernanda L.</strong>
+                    </article>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 LoveCone. Todos os direitos reservados.</p>
+    <a class="wa-float" href="https://wa.me/5511971830218" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">💬</a>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="index.html" class="brand" aria-label="LoveCone home">
+                    <img src="assets/logo4.png" alt="LoveCone logo">
+                    <span style="color: #fff;">LoveCone</span>
+                </a>
+                <p style="margin-top: 1rem;">Confeitaria artesanal com sabor, apresentação e carinho em cada criação.</p>
+            </div>
+
+            <div>
+                <h4>Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">Sobre</a></li>
+                    <li><a href="candy.html">Doces</a></li>
+                    <li><a href="order.html">Pedidos</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Contato</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Fale conosco</a></li>
+                    <li><a href="https://wa.me/5511971830218" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    <li><a href="https://www.instagram.com/loveconechocolates/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            &copy; 2026 LoveCone. Todos os direitos reservados.
+        </div>
     </footer>
 
     <script src="scrip.js"></script>
